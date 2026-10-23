@@ -68,7 +68,7 @@ The first time a command talks to Amphetamine, macOS asks: _"Raycast" wants acce
 2. **Menu bar.** Run **Session Menu Bar** once, or enable it in the extension's settings. The countdown appears next to a pill icon.
 3. **Preferences.** In the same settings pane, set:
    - **Default Duration**, e.g. `1h`. Leave it blank to use Amphetamine's own default.
-   - **Default Display Behavior.**
+   - **Default Display Behavior.** By default it follows Amphetamine's own Allow Display Sleep setting.
    - **Presets**, e.g. `15m, 30m, 1h, 2h, 4h, 8h`.
    - Under Session Menu Bar: **Low Battery Auto-Stop**, e.g. `20`, and whether to hide the icon when idle.
 4. **Quicklinks for one-tap presets (optional).** Run Raycast's **Create Quicklink** command and paste a link like the ones below. Then give it its own name and hotkey.

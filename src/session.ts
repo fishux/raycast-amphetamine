@@ -7,6 +7,7 @@ import {
   AmphetamineNotInstalledError,
   endSession,
   getStatus,
+  readDefaultDisplaySleepAllowed,
   setClosedDisplayEnabled,
   setDisplaySleepAllowed,
   setTriggersEnabled,
@@ -22,10 +23,15 @@ export function preferences(): ExtensionPreferences {
   return getPreferenceValues<ExtensionPreferences>();
 }
 
-/** The display choice to use: an explicit one, else the extension preference. */
-export function resolveDisplay(choice?: string): DisplayChoice {
+/**
+ * The display choice to use: an explicit one, else the extension preference, which by default
+ * follows Amphetamine's own "Allow Display Sleep" setting.
+ */
+export async function resolveDisplay(choice?: string): Promise<DisplayChoice> {
   if (choice === "on" || choice === "sleep") return choice;
-  return preferences().defaultDisplay === "sleep" ? "sleep" : "on";
+  const preference = preferences().defaultDisplay;
+  if (preference === "on" || preference === "sleep") return preference;
+  return (await readDefaultDisplaySleepAllowed()) ? "sleep" : "on";
 }
 
 function displayLabel(display: DisplayChoice): string {
@@ -40,7 +46,7 @@ export function defaultMinutes(): number | undefined {
 }
 
 export async function startFor(minutes: number | undefined, display?: string): Promise<string> {
-  const choice = resolveDisplay(display);
+  const choice = await resolveDisplay(display);
   await clearAppWatch();
   await startSession(minutes, choice === "sleep");
   await refreshMenuBar();
@@ -51,7 +57,7 @@ export async function startFor(minutes: number | undefined, display?: string): P
 }
 
 export async function startUntil(target: Date, display?: string): Promise<string> {
-  const choice = resolveDisplay(display);
+  const choice = await resolveDisplay(display);
   await clearAppWatch();
   await startSession(minutesUntil(target), choice === "sleep");
   await refreshMenuBar();

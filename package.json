@@ -233,11 +233,15 @@
     {
       "name": "defaultDisplay",
       "title": "Default Display Behavior",
-      "description": "Whether new sessions keep the display on or let it sleep while the Mac stays awake.",
+      "description": "Whether new sessions keep the display on or let it sleep while the Mac stays awake. By default this follows Amphetamine's own Allow Display Sleep setting.",
       "type": "dropdown",
-      "default": "on",
+      "default": "amphetamine",
       "required": false,
       "data": [
+        {
+          "title": "Use Amphetamine's Setting",
+          "value": "amphetamine"
+        },
         {
           "title": "Keep Display On",
           "value": "on"

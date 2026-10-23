@@ -43,7 +43,7 @@ export default function Command() {
   });
   const status = data?.status;
   const presets = parsePresets(preferences().presets);
-  const defaultDisplay = resolveDisplay();
+  const { data: defaultDisplay = "on" } = usePromise(resolveDisplay);
   const otherDisplay = defaultDisplay === "on" ? "sleep" : "on";
 
   /** Runs a session change, then either closes Raycast with a HUD or refreshes the list. */

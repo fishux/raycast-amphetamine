@@ -1,6 +1,8 @@
 // Thin wrapper over Amphetamine's AppleScript dictionary (Amphetamine 5.x, "Amphetamine Suite").
 import { getApplications } from "@raycast/api";
 import { runAppleScript } from "@raycast/utils";
+import { execFile } from "child_process";
+import { promisify } from "util";
 import { INDEFINITE } from "./duration";
 
 export const AMPHETAMINE_BUNDLE_ID = "com.if.Amphetamine";
@@ -115,6 +117,24 @@ export async function startSession(minutes?: number, displaySleepAllowed?: boole
   const duration =
     minutes === INDEFINITE ? "duration:0, interval:0" : `duration:${Math.round(minutes)}, interval:minutes`;
   await run(`${TELL} to start new session with options {${duration}, displaySleepAllowed:${allow}}`);
+}
+
+/**
+ * Amphetamine's Preferences → Sessions → "Allow Display Sleep" checkbox. The AppleScript getter only
+ * reports it while no session is running, so read the preference directly and fall back to AppleScript.
+ */
+export async function readDefaultDisplaySleepAllowed(): Promise<boolean> {
+  try {
+    const { stdout } = await promisify(execFile)("/usr/bin/defaults", [
+      "read",
+      AMPHETAMINE_BUNDLE_ID,
+      "Allow Display Sleep",
+    ]);
+    return stdout.trim() === "1";
+  } catch {
+    const output = await run(`${TELL} to return {session is active, display sleep allowed}`);
+    return output.trim() === "false, true";
+  }
 }
 
 export async function endSession(): Promise<void> {

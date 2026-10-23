@@ -26,7 +26,8 @@ export default function Command() {
     }
   }
 
-  const otherDisplay = resolveDisplay() === "on" ? "sleep" : "on";
+  const { data: defaultDisplay = "on" } = usePromise(resolveDisplay);
+  const otherDisplay = defaultDisplay === "on" ? "sleep" : "on";
 
   function item(app: Application, running: boolean) {
     return (
@@ -40,7 +41,7 @@ export default function Command() {
             <Action
               title={running ? `Keep Awake While ${app.name} Runs` : `Open ${app.name} and Keep Awake`}
               icon={Icon.Pill}
-              onAction={() => watch(app, !running, resolveDisplay())}
+              onAction={() => watch(app, !running, defaultDisplay)}
             />
             <Action
               title={otherDisplay === "sleep" ? "Keep Awake, Allow Display Sleep" : "Keep Awake, Display Awake"}
