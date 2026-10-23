@@ -1,0 +1,281 @@
+{
+  "$schema": "https://www.raycast.com/schemas/extension.json",
+  "name": "amphetamine-sessions",
+  "title": "Amphetamine Sessions",
+  "description": "Start, extend, and end Amphetamine keep-awake sessions from Raycast, with presets, natural durations, a menu bar timer, and app-based sessions.",
+  "icon": "extension-icon.png",
+  "author": "fishux",
+  "license": "MIT",
+  "categories": [
+    "System",
+    "Productivity"
+  ],
+  "commands": [
+    {
+      "name": "start-session",
+      "title": "Start Session",
+      "subtitle": "Amphetamine",
+      "description": "Keep your Mac awake for a duration like 45, 90m, 1h30m, or ∞.",
+      "mode": "no-view",
+      "arguments": [
+        {
+          "name": "duration",
+          "placeholder": "Duration (45, 1h30m, ∞)",
+          "type": "text",
+          "required": false
+        },
+        {
+          "name": "display",
+          "placeholder": "Display",
+          "type": "dropdown",
+          "required": false,
+          "data": [
+            {
+              "title": "Keep Display On",
+              "value": "on"
+            },
+            {
+              "title": "Allow Display Sleep",
+              "value": "sleep"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "end-session",
+      "title": "End Session",
+      "subtitle": "Amphetamine",
+      "description": "End the current Amphetamine session.",
+      "mode": "no-view"
+    },
+    {
+      "name": "toggle-session",
+      "title": "Toggle Session",
+      "subtitle": "Amphetamine",
+      "description": "End the session if one is running, otherwise start one with your default duration. Ideal for a hotkey.",
+      "mode": "no-view"
+    },
+    {
+      "name": "manage-sessions",
+      "title": "Manage Sessions",
+      "subtitle": "Amphetamine",
+      "description": "See the current session, pick a preset, or type a duration or time to start one.",
+      "mode": "view"
+    },
+    {
+      "name": "keep-awake-until",
+      "title": "Keep Awake Until",
+      "subtitle": "Amphetamine",
+      "description": "Keep your Mac awake until a clock time like 17:30, 5pm, or noon.",
+      "mode": "no-view",
+      "arguments": [
+        {
+          "name": "time",
+          "placeholder": "Time (5pm, 17:30)",
+          "type": "text",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "keep-awake-while-app",
+      "title": "Keep Awake While App Runs",
+      "subtitle": "Amphetamine",
+      "description": "Keep your Mac awake until the app you pick quits.",
+      "mode": "view"
+    },
+    {
+      "name": "extend-session",
+      "title": "Extend Session",
+      "subtitle": "Amphetamine",
+      "description": "Add time to the current session, keeping its display setting.",
+      "mode": "no-view",
+      "arguments": [
+        {
+          "name": "duration",
+          "placeholder": "Add (default 30m)",
+          "type": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "session-status",
+      "title": "Session Status",
+      "subtitle": "Amphetamine",
+      "description": "Show whether a session is running and how long is left.",
+      "mode": "no-view"
+    },
+    {
+      "name": "toggle-display-sleep",
+      "title": "Toggle Display Sleep",
+      "subtitle": "Amphetamine",
+      "description": "Allow or prevent display sleep for the current session.",
+      "mode": "no-view"
+    },
+    {
+      "name": "toggle-closed-display",
+      "title": "Toggle Awake with Lid Closed",
+      "subtitle": "Amphetamine",
+      "description": "Allow or prevent closed-display mode, so the Mac stays awake with the lid shut.",
+      "mode": "no-view"
+    },
+    {
+      "name": "toggle-triggers",
+      "title": "Toggle Triggers",
+      "subtitle": "Amphetamine",
+      "description": "Turn Amphetamine's automatic Triggers (schedules, apps, Wi-Fi, and more) on or off.",
+      "mode": "no-view"
+    },
+    {
+      "name": "menu-bar",
+      "title": "Session Menu Bar",
+      "subtitle": "Amphetamine",
+      "description": "Show the session countdown in the menu bar and stop sessions when the battery runs low.",
+      "mode": "menu-bar",
+      "interval": "1m",
+      "preferences": [
+        {
+          "name": "showCountdown",
+          "title": "Menu Bar Title",
+          "label": "Show time remaining next to the icon",
+          "description": "Show the session's remaining time in the menu bar.",
+          "type": "checkbox",
+          "default": true,
+          "required": false
+        },
+        {
+          "name": "hideWhenIdle",
+          "title": "Idle State",
+          "label": "Hide the icon when no session is running",
+          "description": "Hide the menu bar item when no session is active.",
+          "type": "checkbox",
+          "default": false,
+          "required": false
+        },
+        {
+          "name": "lowBatteryThreshold",
+          "title": "Low Battery Auto-Stop (%)",
+          "description": "End the session when running on battery at or below this percentage. Leave blank to turn off.",
+          "type": "textfield",
+          "default": "",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "tools": [
+    {
+      "name": "start-session",
+      "title": "Start Session",
+      "description": "Start an Amphetamine session that keeps the Mac awake for a number of minutes, indefinitely, or until a clock time."
+    },
+    {
+      "name": "end-session",
+      "title": "End Session",
+      "description": "End the current Amphetamine session so the Mac can sleep normally."
+    },
+    {
+      "name": "extend-session",
+      "title": "Extend Session",
+      "description": "Add minutes to the current Amphetamine session."
+    },
+    {
+      "name": "get-session-status",
+      "title": "Get Session Status",
+      "description": "Report whether an Amphetamine session is running, how long is left, and its display, lid-closed, Trigger, and Drive Alive settings."
+    }
+  ],
+  "ai": {
+    "instructions": "Amphetamine keeps the Mac awake. Use start-session for requests like 'keep my Mac awake for 2 hours' or 'until 5pm'. Durations are in minutes; 0 means indefinitely. Only allow the display to sleep when the user asks for it.",
+    "evals": [
+      {
+        "input": "@amphetamine-sessions keep my mac awake for 90 minutes",
+        "expected": [
+          {
+            "callsTool": {
+              "name": "start-session",
+              "arguments": {
+                "minutes": 90
+              }
+            }
+          }
+        ]
+      },
+      {
+        "input": "@amphetamine-sessions let my mac sleep again",
+        "expected": [
+          {
+            "callsTool": "end-session"
+          }
+        ]
+      },
+      {
+        "input": "@amphetamine-sessions how long until my mac can sleep?",
+        "expected": [
+          {
+            "callsTool": "get-session-status"
+          }
+        ]
+      }
+    ]
+  },
+  "preferences": [
+    {
+      "name": "defaultDuration",
+      "title": "Default Duration",
+      "description": "Used when no duration is given, e.g. 1h, 45, or ∞. Leave blank to use Amphetamine's own default.",
+      "type": "textfield",
+      "default": "",
+      "required": false
+    },
+    {
+      "name": "defaultDisplay",
+      "title": "Default Display Behavior",
+      "description": "Whether new sessions keep the display on or let it sleep while the Mac stays awake.",
+      "type": "dropdown",
+      "default": "on",
+      "required": false,
+      "data": [
+        {
+          "title": "Keep Display On",
+          "value": "on"
+        },
+        {
+          "title": "Allow Display Sleep",
+          "value": "sleep"
+        }
+      ]
+    },
+    {
+      "name": "presets",
+      "title": "Presets",
+      "description": "Comma-separated durations shown in Manage Sessions and the menu bar.",
+      "type": "textfield",
+      "default": "15m, 30m, 1h, 2h, 4h, 8h",
+      "required": false
+    }
+  ],
+  "dependencies": {
+    "@raycast/api": "^2.7.3",
+    "@raycast/utils": "^2.3.3"
+  },
+  "devDependencies": {
+    "@raycast/eslint-config": "^2.2.0",
+    "@types/node": "22.19.17",
+    "@types/react": "19.0.10",
+    "eslint": "^9.39.5",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.3"
+  },
+  "scripts": {
+    "build": "ray build",
+    "dev": "ray develop",
+    "fix-lint": "ray lint --fix",
+    "lint": "ray lint",
+    "test": "node --test test/*.test.mts",
+    "prepublishOnly": "echo \"\\n\\nIt seems like you are trying to publish the Raycast extension to npm.\\n\\nIf you did intend to publish it to npm, remove the \\`prepublishOnly\\` script and rerun \\`npm publish\\` again.\\nIf you wanted to publish it to the Raycast Store instead, use \\`npm run publish\\` instead.\\n\\n\" && exit 1",
+    "publish": "npx @raycast/api@latest publish"
+  }
+}
